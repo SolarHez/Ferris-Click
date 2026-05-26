@@ -1,33 +1,41 @@
-name: Release
-on:
-  push:
-    tags:
-      - "v*" # 当你推送 v 开头的 tag 时自动触发
+name: Release # 工作流的名称，会在 GitHub Actions 页面显示
+on: # 定义触发规则
+  push: # 当代码被推送时触发
+    tags: # 这里限定了只有推送“标签（Tag）”时才执行
+      - "v*" # 匹配以 v 开头的标签（例如 v0.1.0），忽略普通代码推送
 
-jobs:
-  release:
-    permissions:
-      contents: write
-    strategy:
-      fail-fast: false
-      matrix:
-        platform: [windows-latest]
-    runs-on: ${{ matrix.platform }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup node
-        uses: actions/setup-node@v4
+jobs: # 工作流包含的“任务”列表
+  release: # 定义一个名为 release 的任务
+    permissions: # 权限设置
+      contents: write # 赋予该任务写入仓库（创建 Release 和上传文件）的权限
+    strategy: # 矩阵策略
+      fail-fast: false # 如果其中一个任务失败，不立即停止其他任务
+      matrix: # 矩阵维度（例如可以在 Windows/macOS/Linux 同时运行）
+        platform: [windows-latest] # 目前只在 Windows 环境中运行
+    runs-on: ${{ matrix.platform }} # 指定任务运行的操作系统（即 Windows）
+    steps: # 具体的执行步骤
+      - uses: actions/checkout@v4 # 步骤1：检出仓库代码，让云端服务器获取你的代码
+
+      - name: Setup node # 步骤2：安装 Node.js 环境
+        uses: actions/setup-node@v4 # 使用官方的 Node 安装插件
         with:
-          node-width: 20
-      - name: Install dependencies
-        run: pnpm install
-      - name: Build
-        uses: tauri-apps/tauri-action@v0
+          node-version: 20 # 指定 Node.js 版本（注意：你之前的配置写的是 node-width，这里应更正为 node-version）
+
+      - name: Install pnpm # 步骤3：专门安装 pnpm 管理器
+        uses: pnpm/action-setup@v3 # 使用社区提供的 pnpm 安装插件
+        with:
+          version: 10.33.3 # 指定 pnpm 的具体版本
+
+      - name: Install dependencies # 步骤4：运行安装命令
+        run: pnpm install # 执行安装依赖包，读取 package.json
+
+      - name: Build # 步骤5：核心步骤 - 打包 Tauri 应用
+        uses: tauri-apps/tauri-action@v0 # 使用 Tauri 官方提供的构建插件
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 传入令牌，用于在 GitHub 创建 Release
         with:
-          tagName: v__VERSION__
-          releaseName: "v__VERSION__"
-          releaseBody: "See the assets to download this version and install."
-          releaseDraft: true
-          prerelease: false
+          tagName: v__VERSION__ # 设置 Release 的标签名
+          releaseName: "v__VERSION__" # 设置 Release 在页面的标题
+          releaseBody: "See the assets to download this version and install." # Release 说明文档
+          releaseDraft: true # 设置为草稿状态（发布后需要手动点发布，更安全）
+          prerelease: false # 标识这是否是预发布版本（如 beta 或 alpha）
