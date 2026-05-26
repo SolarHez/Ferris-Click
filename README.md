@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/TauriApps/tauri/main/app-icon.png" alt="Logo" width="40" height="40"> 歌词字幕助手
+# <img src="public/app-icon.png" alt="Logo" width="30" height="30"> 歌词字幕助手
 
 <p align="center">
   <em>一个现代化的桌面应用程序，用于处理歌词和字幕相关任务</em>
