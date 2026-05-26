@@ -24,7 +24,7 @@ jobs: # 工作流包含的“任务”列表
       - name: Install pnpm # 步骤3：专门安装 pnpm 管理器
         uses: pnpm/action-setup@v4 # 使用社区提供的 pnpm 安装插件
         with:
-          version: 10 # 指定 pnpm 的具体版本
+          version: 10.33.3 # 指定 pnpm 的具体版本
 
       - name: Install dependencies # 步骤4：运行安装命令
         run: pnpm install # 执行安装依赖包，读取 package.json
