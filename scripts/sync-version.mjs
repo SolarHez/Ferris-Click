@@ -11,4 +11,4 @@ cargo = cargo.replace(/^version = ".*"/m, `version = "${version}"`);
 
 fs.writeFileSync(cargoPath, cargo);
 
-console.log("synced version:", version);
+console.log("cargo.toml version:", version);
