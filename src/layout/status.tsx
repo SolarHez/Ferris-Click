@@ -103,8 +103,8 @@ export const Status = ({
           </Field>
           <Field className="">
             <FieldLabel>发送内容预览</FieldLabel>
-            <div className=" bg-black/50 rounded-md flex items-center justify-center min-h-28 p-5 select-text">
-              <h1 className="text-lg font-bold whitespace-pre w-full">
+            <div className=" bg-background/50 text-foreground rounded-md flex items-center justify-center min-h-28 p-5 select-text">
+              <h1 className="text-lg font-bold whitespace-pre w-full ">
                 {previewContent}
               </h1>
             </div>

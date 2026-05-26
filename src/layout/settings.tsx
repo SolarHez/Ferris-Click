@@ -39,7 +39,7 @@ export const Settings = ({
           <Field>
             <FieldLabel>输入框坐标</FieldLabel>
             <InputGroup className="max-w-full">
-              <InputGroupInput value={data?.xy} placeholder="0,0" />
+              <InputGroupInput defaultValue={data?.xy} placeholder="0,0" />
               <InputGroupAddon align="inline-end">
                 <InputGroupButton
                   variant={state.isGetMouseXY ? "destructive" : "ghost"}

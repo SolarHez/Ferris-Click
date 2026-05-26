@@ -1,5 +1,6 @@
-import { Maximize2, Minus, X } from "lucide-react";
+import { Minus, Square, SunMoon, X } from "lucide-react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
+import { useSystemTheme } from "@/hooks/useSystemTheme";
 
 export default function WindowControls() {
   // 检查是否不在 Tauri 环境中
@@ -22,8 +23,16 @@ export default function WindowControls() {
     await appWindow.close();
   };
 
+  const { handleToggleTheme } = useSystemTheme();
+
   return (
     <div className="flex items-center gap-5">
+      <div
+        onClick={() => handleToggleTheme()}
+        className="text-foreground/50 hover:text-primary pointer-events-auto"
+      >
+        <SunMoon size={20} />
+      </div>
       <div
         onClick={handleMinimize}
         className="text-foreground/50 hover:text-primary pointer-events-auto"
@@ -34,7 +43,7 @@ export default function WindowControls() {
         onClick={handleToggleMaximize}
         className="text-foreground/50 hover:text-primary pointer-events-auto"
       >
-        <Maximize2 size={18} />
+        <Square size={16} />
       </div>
       <div
         onClick={handleClose}
